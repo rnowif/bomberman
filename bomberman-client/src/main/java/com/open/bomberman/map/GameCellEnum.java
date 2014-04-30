@@ -1,4 +1,4 @@
-package com.lite.bomberman.map;
+package com.open.bomberman.map;
 
 public enum GameCellEnum {
 

@@ -1,4 +1,4 @@
-package com.lite.bomberman.strategy;
+package com.open.bomberman.strategy;
 
 public class PlayerAction {
 

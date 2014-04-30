@@ -1,4 +1,4 @@
-package com.lite.bomberman.map;
+package com.open.bomberman.map;
 
 import java.awt.Point;
 import java.util.ArrayList;

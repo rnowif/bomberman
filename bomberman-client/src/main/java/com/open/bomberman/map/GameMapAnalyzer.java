@@ -1,8 +1,8 @@
-package com.lite.bomberman.map;
+package com.open.bomberman.map;
 
 import java.awt.Point;
 
-import com.lite.bomberman.strategy.DirectionEnum;
+import com.open.bomberman.strategy.DirectionEnum;
 
 public class GameMapAnalyzer {
 

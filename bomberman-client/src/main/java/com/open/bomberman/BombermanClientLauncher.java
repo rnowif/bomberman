@@ -1,4 +1,4 @@
-package com.lite.bomberman;
+package com.open.bomberman;
 
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -9,10 +9,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.lite.bomberman.map.GameCellEnum;
-import com.lite.bomberman.map.GameMap;
-import com.lite.bomberman.strategy.PlayerAction;
-import com.lite.bomberman.strategy.StrategyBuilder;
+import com.open.bomberman.map.GameCellEnum;
+import com.open.bomberman.map.GameMap;
+import com.open.bomberman.strategy.PlayerAction;
+import com.open.bomberman.strategy.StrategyBuilder;
 
 public class BombermanClientLauncher {
 

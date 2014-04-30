@@ -1,7 +1,7 @@
-package com.lite.bomberman.strategy;
+package com.open.bomberman.strategy;
 
-import com.lite.bomberman.map.GameMap;
-import com.lite.bomberman.map.GameMapAnalyzer;
+import com.open.bomberman.map.GameMap;
+import com.open.bomberman.map.GameMapAnalyzer;
 
 public class StrategyBuilder {
 

@@ -1,11 +1,11 @@
-package com.lite.bomberman.strategy;
+package com.open.bomberman.strategy;
 
 import java.awt.Point;
 import java.util.Iterator;
 
-import com.lite.bomberman.map.GameCellEnum;
-import com.lite.bomberman.map.GameMapAnalyzer;
-import com.lite.bomberman.map.GamePath;
+import com.open.bomberman.map.GameCellEnum;
+import com.open.bomberman.map.GameMapAnalyzer;
+import com.open.bomberman.map.GamePath;
 
 public class GetAwayStrategy extends Strategy {
 
