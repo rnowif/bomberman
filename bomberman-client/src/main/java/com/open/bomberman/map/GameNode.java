@@ -2,7 +2,6 @@ package com.open.bomberman.map;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GameNode {
@@ -41,29 +40,13 @@ public class GameNode {
 		return depth;
 	}
 
-	public void addChild(Point position, GameCellEnum cell) {
-		GameNode child = new GameNode(position, cell);
-		this.children.add(child);
-		child.setParent(this);
-	}
-
 	private void setParent(GameNode parent) {
 		this.parent = parent;
 		this.depth = parent.getDepth() + 1;
 	}
 
-	public List<GameNode> getNodes(int depth) {
-
-		if (depth == this.depth) {
-			return Arrays.asList(this);
-		}
-
-		List<GameNode> toReturn = new ArrayList<GameNode>();
-
-		for (GameNode child : children) {
-			toReturn.addAll(child.getNodes(depth));
-		}
-
-		return toReturn;
+	public void addChild(GameNode child) {
+		this.children.add(child);
+		child.setParent(this);
 	}
 }

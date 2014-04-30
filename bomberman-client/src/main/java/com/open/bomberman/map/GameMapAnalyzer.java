@@ -7,9 +7,11 @@ import com.open.bomberman.strategy.DirectionEnum;
 public class GameMapAnalyzer {
 
 	private final GameMap map;
+	private final GameTree tree;
 
 	public GameMapAnalyzer(GameMap map) {
 		this.map = map;
+		this.tree = GameTree.buildFromMap(map, 6);
 	}
 
 	public boolean isThreatenedByBomb(Point position) {
@@ -77,7 +79,7 @@ public class GameMapAnalyzer {
 
 	public GamePath getClosestCell(Point position, final GameCellEnum cellType) {
 
-		MapCrawler crawler = new MapCrawler(map, new CrawlStopper() {
+		GamePath path = tree.crawlMap(new CrawlStopper() {
 
 			@Override
 			public boolean isFinished(Point position) {
@@ -87,13 +89,12 @@ public class GameMapAnalyzer {
 			}
 		});
 
-		GamePath path = crawler.crawlMap(position, 4);
-
 		return path;
 	}
 
 	public GamePath getSafePath(Point position) {
-		MapCrawler crawler = new MapCrawler(map, new CrawlStopper() {
+
+		GamePath path = tree.crawlMap(new CrawlStopper() {
 
 			@Override
 			public boolean isFinished(Point position) {
@@ -101,8 +102,6 @@ public class GameMapAnalyzer {
 				return !isThreatenedByBomb(position);
 			}
 		});
-
-		GamePath path = crawler.crawlMap(position, 4);
 
 		return path;
 	}
