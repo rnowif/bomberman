@@ -9,17 +9,16 @@ import com.open.bomberman.utils.MultiValueMap;
 
 public class GameTree {
 
-	private final MultiValueMap<Integer, GameNode> nodesByDepth;
 	private final GameMap map;
 	private final GameNode root;
 
 	private GameTree(GameMap map, int maxDepth) {
 		this.map = map;
-		this.nodesByDepth = new MultiValueMap<Integer, GameNode>();
+		MultiValueMap<Integer, GameNode> nodesByDepth = new MultiValueMap<Integer, GameNode>();
 
 		Point position = map.getPlayerPosition(0);
 
-		root = new GameNode(position, map.get(position));
+		root = new GameNode(position, map.get(position), map.hasEnemy(position));
 		nodesByDepth.add(0, root);
 
 		List<Point> processedPoints = new ArrayList<Point>();
@@ -28,7 +27,8 @@ public class GameTree {
 			for (GameNode node : nodesByDepth.get(depth)) {
 				for (Point p : getAdjacentPositions(node.getPosition())) {
 					if (!processedPoints.contains(p)) {
-						GameNode child = new GameNode(p, map.get(p));
+						GameNode child = new GameNode(p, map.get(p),
+								map.hasEnemy(p));
 						node.addChild(child);
 						processedPoints.add(p);
 						nodesByDepth.add(child.getDepth(), child);
@@ -60,27 +60,36 @@ public class GameTree {
 		List<GameNode> nodesToProcess = new ArrayList<GameNode>();
 		nodesToProcess.add(root);
 
-		GameNode finalNode;
+		GameNode finalNode = null;
 
+		// Parcours de l'arbre en largeur
 		Iterator<GameNode> it = nodesToProcess.iterator();
 
 		while (it.hasNext()) {
 			GameNode node = it.next();
-			if (stopper.isFinished(node.getPosition())) {
+			if (stopper.isFinished(node)) {
 				finalNode = node;
 				break;
 			}
 
 			nodesToProcess.addAll(node.getChildren());
+			it.remove();
+		}
+
+		if (finalNode == null) {
+			return null;
 		}
 
 		GamePath path = new GamePath();
-		// TODO : Extraire le path du node
+		while (finalNode != null) {
+			path.addPositionFirst(finalNode.getPosition());
+			finalNode = finalNode.getParent();
+		}
 		return path;
 	}
 
 	/**
-	 * Construit un arbre centré sur la position du joueur principal
+	 * Construit un arbre centrï¿½ sur la position du joueur principal
 	 * 
 	 * @param map
 	 * @return

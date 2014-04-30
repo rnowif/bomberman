@@ -10,7 +10,7 @@ public class GameMap {
 	private static final int CELL_HEIGHT_PX = 16;
 	private static final int MAX_PLAYERS = 4;
 
-	// Contient les dimensions de la map, son contenu, les différents joueurs et
+	// Contient les dimensions de la map, son contenu, les diffï¿½rents joueurs et
 	// les bonus
 	private final GameCellEnum[][] map = new GameCellEnum[WIDTH][HEIGHT];
 	private final Player[] players = new Player[MAX_PLAYERS];
@@ -19,7 +19,8 @@ public class GameMap {
 
 	public void set(int x, int y, GameCellEnum cell) {
 		// On supprime ma bombe si besoin
-		if (myBombPosition != null && myBombPosition.x == x && myBombPosition.y == y && GameCellEnum.FIRE.equals(cell)) {
+		if (myBombPosition != null && myBombPosition.x == x
+				&& myBombPosition.y == y && GameCellEnum.FIRE.equals(cell)) {
 			deleteMyBomb();
 		}
 		map[x][y] = cell;
@@ -34,7 +35,8 @@ public class GameMap {
 	}
 
 	private Point convertPositionFromPx(Point positionInPx) {
-		return new Point((int) (positionInPx.getX() / CELL_WIDTH_PX), (int) (positionInPx.getY() / CELL_HEIGHT_PX));
+		return new Point((int) (positionInPx.getX() / CELL_WIDTH_PX),
+				(int) (positionInPx.getY() / CELL_HEIGHT_PX));
 	}
 
 	public Point getPlayerPosition(int playerIndex) {
@@ -49,7 +51,9 @@ public class GameMap {
 	}
 
 	public boolean isOutOfBounds(Point position) {
-		return position.x < 0 || position.y < 0 || position.x > GameMap.WIDTH - 1 || position.y > GameMap.HEIGHT - 1;
+		return position.x < 0 || position.y < 0
+				|| position.x > GameMap.WIDTH - 1
+				|| position.y > GameMap.HEIGHT - 1;
 	}
 
 	public GameCellEnum get(Point position) {
@@ -72,5 +76,14 @@ public class GameMap {
 	public void deleteMyBomb() {
 		myBombPosition = null;
 		bombsLeft++;
+	}
+
+	public boolean hasEnemy(Point position) {
+		for (int i = 1; i < MAX_PLAYERS; i++) {
+			if (players[i] != null && players[i].getPosition().equals(position)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

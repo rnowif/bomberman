@@ -8,12 +8,12 @@ public class GamePath implements Iterable<Point> {
 
 	private final LinkedList<Point> path = new LinkedList<Point>();
 
-	public void addPosition(Point point) {
+	public void addPositionLast(Point point) {
 		path.addLast(point);
 	}
 
-	public void removeLast() {
-		path.removeLast();
+	public void addPositionFirst(Point point) {
+		path.addFirst(point);
 	}
 
 	public int getLength() {

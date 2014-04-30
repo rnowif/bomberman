@@ -15,14 +15,15 @@ public class GameMapAnalyzer {
 	}
 
 	public boolean isThreatenedByBomb(Point position) {
-		// On est menacé s'il existe une bombe sur un de nos axes
+		// On est menacï¿½ s'il existe une bombe sur un de nos axes
 		// Vers la droite
 		for (int x = position.x; x < GameMap.WIDTH; x++) {
 			GameCellEnum cell = map.get(x, position.y);
 			if (cell == null || !cell.isWalkable()) {
 				break;
 			}
-			if (GameCellEnum.BOMB.equals(cell) || GameCellEnum.FIRE.equals(cell)) {
+			if (GameCellEnum.BOMB.equals(cell)
+					|| GameCellEnum.FIRE.equals(cell)) {
 				return true;
 			}
 		}
@@ -33,7 +34,8 @@ public class GameMapAnalyzer {
 			if (cell == null || !cell.isWalkable()) {
 				break;
 			}
-			if (GameCellEnum.BOMB.equals(cell) || GameCellEnum.FIRE.equals(cell)) {
+			if (GameCellEnum.BOMB.equals(cell)
+					|| GameCellEnum.FIRE.equals(cell)) {
 				return true;
 			}
 		}
@@ -44,7 +46,8 @@ public class GameMapAnalyzer {
 			if (cell == null || !cell.isWalkable()) {
 				break;
 			}
-			if (GameCellEnum.BOMB.equals(cell) || GameCellEnum.FIRE.equals(cell)) {
+			if (GameCellEnum.BOMB.equals(cell)
+					|| GameCellEnum.FIRE.equals(cell)) {
 				return true;
 			}
 		}
@@ -55,7 +58,8 @@ public class GameMapAnalyzer {
 			if (cell == null || !cell.isWalkable()) {
 				break;
 			}
-			if (GameCellEnum.BOMB.equals(cell) || GameCellEnum.FIRE.equals(cell)) {
+			if (GameCellEnum.BOMB.equals(cell)
+					|| GameCellEnum.FIRE.equals(cell)) {
 				return true;
 			}
 		}
@@ -63,14 +67,28 @@ public class GameMapAnalyzer {
 		return false;
 	}
 
-	public boolean hasEnemyAtRange(int playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean hasEnemyAtRange() {
+		GamePath path = tree.crawlMap(new CrawlStopper() {
+			@Override
+			public boolean isFinished(GameNode node) {
+				return node.hasEnemy();
+			}
+		});
+
+		return path != null;
 	}
 
-	public boolean hasBonusAtRange(int playerIndex) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean hasBonusAtRange() {
+		GamePath path = tree.crawlMap(new CrawlStopper() {
+			@Override
+			public boolean isFinished(GameNode node) {
+				return GameCellEnum.BONUS_BOMB.equals(node.getCell())
+						|| GameCellEnum.BONUS_FIRE.equals(node.getCell())
+						|| GameCellEnum.BONUS_ROLLER.equals(node.getCell());
+			}
+		});
+
+		return path != null;
 	}
 
 	public Point getPlayerPosition(int playerIndex) {
@@ -82,9 +100,13 @@ public class GameMapAnalyzer {
 		GamePath path = tree.crawlMap(new CrawlStopper() {
 
 			@Override
-			public boolean isFinished(Point position) {
+			public boolean isFinished(GameNode node) {
 
-				return cellType.equals(map.get(position.x + 1, position.y)) || cellType.equals(map.get(position.x, position.y + 1)) || cellType.equals(map.get(position.x - 1, position.y))
+				Point position = node.getPosition();
+
+				return cellType.equals(map.get(position.x + 1, position.y))
+						|| cellType.equals(map.get(position.x, position.y + 1))
+						|| cellType.equals(map.get(position.x - 1, position.y))
 						|| cellType.equals(map.get(position.x, position.y - 1));
 			}
 		});
@@ -97,9 +119,9 @@ public class GameMapAnalyzer {
 		GamePath path = tree.crawlMap(new CrawlStopper() {
 
 			@Override
-			public boolean isFinished(Point position) {
+			public boolean isFinished(GameNode node) {
 
-				return !isThreatenedByBomb(position);
+				return !isThreatenedByBomb(node.getPosition());
 			}
 		});
 
@@ -107,7 +129,8 @@ public class GameMapAnalyzer {
 	}
 
 	private int getManhattanDistance(Point position1, Point position2) {
-		return Math.abs(position1.x - position2.x) + Math.abs(position1.y - position2.y);
+		return Math.abs(position1.x - position2.x)
+				+ Math.abs(position1.y - position2.y);
 	}
 
 	public DirectionEnum getDirection(Point source, Point destination) {

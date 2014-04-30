@@ -8,15 +8,17 @@ public class GameNode {
 
 	private final Point position;
 	private final GameCellEnum cell;
+	private final boolean enemy;
 
 	private final List<GameNode> children;
+
 	private GameNode parent;
 	private int depth = 0;
 
-	public GameNode(Point position, GameCellEnum cell) {
-		super();
+	public GameNode(Point position, GameCellEnum cell, boolean enemy) {
 		this.position = position;
 		this.cell = cell;
+		this.enemy = enemy;
 		this.children = new ArrayList<GameNode>();
 	}
 
@@ -38,6 +40,10 @@ public class GameNode {
 
 	public int getDepth() {
 		return depth;
+	}
+
+	public boolean hasEnemy() {
+		return enemy;
 	}
 
 	private void setParent(GameNode parent) {
